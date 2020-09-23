@@ -42,7 +42,7 @@ export default {
       provider.addScope('email')
       provider.addScope('profile')
       try {
-        let result = await this.$fireAuth.signInWithRedirect(provider)
+        let result = await this.$fireAuth.signInWithPopup(provider)
         let token = result.credential
         let user = result.user
         await this.$fireAuth.currentUser.reload()

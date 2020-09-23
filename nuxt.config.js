@@ -88,6 +88,13 @@ export default {
   pwa: {
     meta: false,
     icon: false,
+    manifest: {
+      lang: 'en',
+      name: "75Hard",
+      short_name: "75Hard",
+      display: 'standalone',
+      theme_color: '#FA824C',
+    },
 
     workbox: {
       importScripts: [

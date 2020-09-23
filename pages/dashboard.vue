@@ -9,7 +9,7 @@
             </v-avatar>
             <div>
               <v-card-title>{{ $fireAuth.currentUser.displayName }}</v-card-title>
-              <v-card-subtitle>Day #56</v-card-subtitle>
+              <v-card-subtitle>Day #{{user.day}}</v-card-subtitle>
             </div>
             <v-card-actions class="mx-0">
               <v-btn fab icon color="white">
@@ -21,22 +21,22 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <WaterCounter/>
+          <WaterCounter :user="user"/>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
-          <WorkoutCounter/>
+          <WorkoutCounter :user="user"/>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
-          <ReadCounter/>
+          <ReadCounter :user="user"/>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
-          <DailyPicture/>
+          <DailyPicture :user="user"/>
         </v-col>
       </v-row>
     </v-col>
@@ -48,15 +48,22 @@ import WaterCounter from "~/components/Dashboard/WaterCounter";
 import WorkoutCounter from "~/components/Dashboard/WorkoutCounter";
 import ReadCounter from "~/components/Dashboard/ReadCounter";
 import DailyPicture from "~/components/Dashboard/DailyPicture";
+import {mapGetters} from "vuex";
+
 export default {
   name: "dashboard",
   components: {DailyPicture, ReadCounter, WorkoutCounter, WaterCounter},
-  async asyncData({store}) {
-    let user = await store.dispatch('user/getUserInfo')
-    return {
-      user: user
+  middleware: [
+    async ({store}) => {
+      await store.dispatch('loadUser')
     }
-  },
+  ],
+
+  computed:{
+    ...mapGetters({
+      user: 'user/getUserInfo'
+    })
+  }
 
 }
 </script>

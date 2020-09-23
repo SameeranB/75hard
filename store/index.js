@@ -18,6 +18,29 @@ export const actions = {
     await commit('user/setUserLoggedIn', true)
   },
 
+  async registerUser() {
+    let db = this.$fireStoreObj()
+
+    await db.collection('Users').doc(this.$fireAuth.currentUser.uid).set({
+      day: 1,
+      waterAmount: 0,
+      workoutOne: false,
+      workoutTwo: false,
+      bookName: '',
+      totalPages: 0,
+      currentPage: 0,
+      pagesToday:0,
+      pictureTaken: false,
+      logs: null
+    })
+
+  },
+  async loadUser({commit}) {
+    let db = this.$fireStoreObj()
+    let user = await db.collection('Users').doc(this.$fireAuth.currentUser.uid).get()
+    await commit('user/setUserInfo', user.data())
+  }
+
 
 
 }

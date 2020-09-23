@@ -46,7 +46,14 @@ export default {
         let token = result.credential
         let user = result.user
         await this.$fireAuth.currentUser.reload()
-        console.log(user)
+        if (result.additionalUserInfo.isNewUser) {
+          await this.$store.dispatch('registerUser')
+          await this.$store.dispatch('loadUser')
+          await this.$router.push('onboarding')
+        }
+        await this.$store.dispatch('loadUser')
+        await this.$router.push('dashboard')
+
       } catch (e) {
         let errorCode = e.code;
         let errorMessage = e.message;

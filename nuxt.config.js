@@ -96,6 +96,9 @@ export default {
       dev: false
     }
   },
+  generate: {
+    fallback: true
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {}

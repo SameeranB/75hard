@@ -50,9 +50,11 @@ export default {
           await this.$store.dispatch('registerUser')
           await this.$store.dispatch('loadUser')
           await this.$router.push('onboarding')
+        } else {
+          await this.$store.dispatch('loadUser')
+          await this.$router.push('dashboard')
         }
-        await this.$store.dispatch('loadUser')
-        await this.$router.push('dashboard')
+
 
       } catch (e) {
         let errorCode = e.code;

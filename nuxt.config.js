@@ -93,7 +93,7 @@ export default {
       importScripts: [
         'firebase-auth-sw.js'
       ],
-      dev: false
+      dev: true
     }
   },
   generate: {

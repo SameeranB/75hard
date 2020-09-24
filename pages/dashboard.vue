@@ -11,9 +11,13 @@
               <v-card-title>{{ $fireAuth.currentUser.displayName }}</v-card-title>
               <v-card-subtitle>Day #{{user.day}}</v-card-subtitle>
             </div>
+            <v-spacer></v-spacer>
             <v-card-actions class="mx-0">
               <v-btn fab icon color="white">
                 <v-icon>mdi-cog-outline</v-icon>
+              </v-btn>
+              <v-btn fab icon color="white" @click="userLogout">
+                <v-icon color="red">mdi-logout</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -54,8 +58,12 @@ export default {
   name: "dashboard",
   components: {DailyPicture, ReadCounter, WorkoutCounter, WaterCounter},
   middleware: [
-    async ({store}) => {
-      await store.dispatch('loadUser')
+    async ({store, redirect}) => {
+      if (store.getters['user/getUserLoggedIn']){
+        await store.dispatch('loadUser')
+      } else {
+        redirect('/')
+      }
     }
   ],
 
@@ -63,6 +71,12 @@ export default {
     ...mapGetters({
       user: 'user/getUserInfo'
     })
+  },
+  methods: {
+    async userLogout() {
+      await this.$fireAuth.signOut()
+      await this.$router.push('/')
+    }
   }
 
 }

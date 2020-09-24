@@ -36,6 +36,11 @@ export default {
     Logo,
     VuetifyLogo
   },
+ async middleware({ store, redirect }){
+    if (store.getters['user/getUserLoggedIn']){
+      return redirect('/dashboard')
+    }
+  },
   methods: {
     async loginUser() {
       let provider = new this.$fireAuthObj.GoogleAuthProvider();

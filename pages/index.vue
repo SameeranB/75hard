@@ -37,8 +37,17 @@ export default {
     VuetifyLogo
   },
  async middleware({ store, redirect }){
-    if (store.getters['user/getUserLoggedIn']){
-      return redirect('/dashboard')
+    if (store.getters['user/getUserLoggedIn']) {
+      await store.dispatch('loadUser')
+      let user = await store.getters['user/getUserInfo']
+
+      if (user !== undefined && user.day > 0) {
+        return redirect('/dashboard')
+      } else  {
+        await store.dispatch('registerUser')
+        await store.dispatch('loadUser')
+        return redirect('/onboarding')
+      }
     }
   },
   methods: {
@@ -48,19 +57,7 @@ export default {
       provider.addScope('profile')
       try {
         let result = await this.$fireAuth.signInWithRedirect(provider)
-        let token = result.credential
-        let user = result.user
         await this.$fireAuth.currentUser.reload()
-        if (result.additionalUserInfo.isNewUser) {
-          await this.$store.dispatch('registerUser')
-          await this.$store.dispatch('loadUser')
-          await this.$router.push('onboarding')
-        } else {
-          await this.$store.dispatch('loadUser')
-          await this.$router.push('dashboard')
-        }
-
-
       } catch (e) {
         let errorCode = e.code;
         let errorMessage = e.message;

@@ -49,6 +49,11 @@ export const mutations = {
   },
   switchUserPicture(state) {
     state.userInfo.pictureTaken =! state.userInfo.pictureTaken
+  },
+  setUserBookInfo(state, val) {
+    state.userInfo.bookName = val.bookName
+    state.userInfo.totalPages = val.totalPages
+
   }
 
 }

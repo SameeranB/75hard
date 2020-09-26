@@ -40,12 +40,12 @@ export const mutations = {
     state.userInfo.workoutTwo = !state.userInfo.workoutTwo
   },
   incrementUserRead(state){
-    state.userInfo.currentPage+=1
-    state.userInfo.pagesToday+=1
+    state.userInfo.currentPage= parseInt(state.userInfo.currentPage)+1
+    state.userInfo.pagesToday= parseInt(state.userInfo.pagesToday)+1
   },
   decrementUserRead(state){
-    state.userInfo.currentPage-=1
-    state.userInfo.pagesToday-=1
+    state.userInfo.currentPage= parseInt(state.userInfo.currentPage)-1
+    state.userInfo.pagesToday= parseInt(state.userInfo.pagesToday)-1
   },
   switchUserPicture(state) {
     state.userInfo.pictureTaken =! state.userInfo.pictureTaken

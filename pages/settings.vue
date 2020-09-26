@@ -147,8 +147,8 @@ export default {
       if (this.newCurrentPage !== null) {
         let db = this.$fireStoreObj();
         await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
-          bookName: this.newBookName,
-          totalPages: this.newTotalPages,
+          currentPage: this.newCurrentPage,
+
         })
       }
       this.loadingChangePage = false

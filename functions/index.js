@@ -11,7 +11,7 @@ exports.evaluateUsersProgress = functions.pubsub.schedule('59 23 * * *').timeZon
       let user = await userRef.get()
       let today = new Date()
       today = today.toISOString()
-      if (user.get('pagesToday') >= 10 && user.get('pictureTaken') && user.get('waterAmount') >= 4000 && user.get('workoutOne') && user.get('workoutTwo')) {
+      if (user.get('pagesToday') >= 10 && user.get('pictureTaken') && user.get('waterAmount') >= user.get('waterGoal') && user.get('workoutOne') && user.get('workoutTwo')) {
         let log = user.get('logs')
         if (log === null){
           log = {}

@@ -23,6 +23,7 @@ export const actions = {
 
     await db.collection('Users').doc(this.$fireAuth.currentUser.uid).set({
       day: 1,
+      waterGoal: 4000,
       waterAmount: 0,
       workoutOne: false,
       workoutTwo: false,

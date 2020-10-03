@@ -1,11 +1,11 @@
 <template>
-  <v-card >
+  <v-card>
     <v-row align="start" justify="center">
       <v-col>
         <v-card-title>Water</v-card-title>
       </v-col>
       <v-col v-if="waterDone" class="d-flex align-center justify-end">
-        <v-card-title class="accent--text" >
+        <v-card-title class="accent--text">
           <v-icon left>
             mdi-calendar-check
           </v-icon>
@@ -32,7 +32,7 @@
     <v-row>
       <v-col class="d-flex align-center justify-center">
         <v-card-subtitle>
-          {{ user.waterAmount }} / 4000 ML
+          {{ user.waterAmount }} / {{ user.waterGoal }} ML
         </v-card-subtitle>
       </v-col>
     </v-row>

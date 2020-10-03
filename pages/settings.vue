@@ -65,6 +65,33 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-card-title>Water Settings</v-card-title>
+            <v-card-subtitle class="text-center">If for medical reasons you cannot have 4 litres of water, you may
+              change it here.
+            </v-card-subtitle>
+            <v-card-actions>
+              <v-text-field
+                label="Daily Water Goal"
+                v-model="newWaterGoal"
+                :value="user.waterGoal"
+                type="number"
+                outlined
+              >
+              </v-text-field>
+              <v-btn
+                color="accent"
+                @click="updateWaterGoal"
+                :loading="loadingChangeWater"
+              >
+                Submit
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
       <v-snackbar
         v-model="snackbar"
         multi-line
@@ -106,13 +133,15 @@ export default {
     return {
       newBookName: user.bookName,
       newTotalPages: user.totalPages,
-      newCurrentPage: user.currentPage
+      newCurrentPage: user.currentPage,
+      newWaterGoal: user.waterGoal
     }
   },
   data() {
     return {
       loadingChangeBook: false,
       loadingChangePage: false,
+      loadingChangeWater: false,
       snackbar: false,
       snackbarText: '',
       snackbarColor: 'success'
@@ -152,6 +181,17 @@ export default {
         })
       }
       this.loadingChangePage = false
+    },
+    async updateWaterGoal() {
+      this.loadingChangeWater = true
+      if (this.newWaterGoal !== null) {
+        let db = this.$fireStoreObj();
+        await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
+          waterGoal: this.newWaterGoal,
+
+        })
+      }
+      this.loadingChangeWater = false
     }
   }
 }

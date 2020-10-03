@@ -51,6 +51,32 @@
         </v-carousel-item>
         <v-carousel-item>
           <v-card style="height: 90vh" class="d-flex flex-column mb-5">
+            <v-card-title class="text-h2 align-self-center text-center">Set Water Goal</v-card-title>
+            <v-divider></v-divider>
+            <v-spacer></v-spacer>
+            <v-card-text class="text-h6 text-center">The recommended and default water goal is 4 litres. You may change
+              it here if you have medical resons.
+            </v-card-text>
+            <v-card-text class="text-h6 font-style-bold text-center">We do not recommend doing this unless absolutely
+              necessary.
+            </v-card-text>
+            <v-spacer></v-spacer>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="waterGoal"
+                  label="Custom Water Goal"
+                  type="number"
+                  outlined
+                >
+
+                </v-text-field>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-carousel-item>
+        <v-carousel-item>
+          <v-card style="height: 90vh" class="d-flex flex-column mb-5">
             <v-card-title class="text-h2 align-self-center text-center">Do Well</v-card-title>
             <v-divider></v-divider>
             <v-spacer></v-spacer>
@@ -59,7 +85,7 @@
           </v-card>
         </v-carousel-item>
       </v-carousel>
-      <v-btn block color="green" @click="setBook">
+      <v-btn block color="green" @click="setValue">
         Confirm
       </v-btn>
     </v-col>
@@ -90,17 +116,30 @@ export default {
       bookName: '',
       totalPages: null,
       carousel: 0,
-      snackbar: false
+      snackbar: false,
+      waterGoal: 4000
     }
   },
   methods: {
-    async setBook() {
+    async setValue() {
       if (this.carousel === 0) {
         if (this.bookName !== '' && this.totalPages !== null) {
           let db = this.$fireStoreObj();
           await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
             bookName: this.bookName,
             totalPages: this.totalPages,
+          })
+          this.carousel += 1
+        } else {
+          this.snackbar = true
+
+        }
+
+      } else if (this.carousel === 1) {
+        if (this.waterGoal !== 4000 && this.waterGoal !== null) {
+          let db = this.$fireStoreObj();
+          await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
+            waterGoal: this.waterGoal,
           })
           this.carousel += 1
         } else {

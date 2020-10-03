@@ -68,6 +68,7 @@
                   label="Custom Water Goal"
                   type="number"
                   outlined
+                  suffix="ml"
                 >
 
                 </v-text-field>

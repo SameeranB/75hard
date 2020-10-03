@@ -79,6 +79,7 @@
                 :value="user.waterGoal"
                 type="number"
                 outlined
+                suffix="ml"
               >
               </v-text-field>
               <v-btn

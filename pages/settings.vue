@@ -72,7 +72,7 @@
             <v-card-subtitle class="text-center">If for medical reasons you cannot have 4 litres of water, you may
               change it here.
             </v-card-subtitle>
-            <v-card-actions>
+            <v-card-actions class="d-flex flex-column align-center justify-center">
               <v-text-field
                 label="Daily Water Goal"
                 v-model="newWaterGoal"

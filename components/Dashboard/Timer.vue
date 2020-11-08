@@ -26,7 +26,7 @@
             <v-col>
               <v-btn
                 v-if="reset"
-                @click="resetCountdown"
+                @click="promptStartCountdown"
               >
                 Start
               </v-btn>
@@ -82,7 +82,7 @@
       </vac>
     </client-only>
     <v-dialog
-      :value="dialog"
+      :value="stopDialog"
       persistent
       overlay-opacity="0.95"
     >
@@ -103,7 +103,37 @@
           <v-spacer></v-spacer>
           <v-btn
             outlined
-            @click="dialog = false"
+            @click="stopDialog = false"
+          >
+            Take Me Back
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      :value="startDialog"
+      persistent
+      overlay-opacity="0.95"
+    >
+      <v-card>
+        <v-card-title>Are You Ready?</v-card-title>
+        <v-card-text>
+          You can pause or stop the workout anytime you want, but you will not be able to mark the workout as complete unless the timer counts down to 00:00.
+          <br/><br/>
+          <strong>You may minimize the app, but please do not close it. The timer will reset if you close the app.</strong>
+        </v-card-text>
+        <v-divider/>
+        <v-card-actions>
+          <v-btn
+            color="success"
+            @click="resetCountdown"
+          >
+            Start Workout
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            outlined
+            @click="startDialog = false"
           >
             Take Me Back
           </v-btn>
@@ -128,21 +158,26 @@ export default {
   },
   data() {
     return {
-      dialog: false,
-      reset: false
+      stopDialog: false,
+      startDialog: false,
+      reset: true
     }
   },
   methods: {
+    promptStartCountdown(){
+      this.startDialog = true
+    },
     resetCountdown(){
       this.$refs.vac.startCountdown(true)
       this.reset = false
+      this.startDialog = false
     },
     promptStop() {
       this.$refs.vac.pauseCountdown()
-      this.dialog = true
+      this.stopDialog = true
     },
     confirmStop() {
-      this.dialog = false
+      this.stopDialog = false
       this.$refs.vac.stopCountdown()
       this.$refs.vac.state = 'beforeStart';
       this.reset = true

@@ -7,7 +7,7 @@
     :show-arrows="false"
     touchless
     :value="carouselPage"
-    height="200"
+    height="300"
   >
     <v-carousel-item>
       <v-card>
@@ -33,7 +33,7 @@
               <v-icon v-else x-large>mdi-weather-sunny</v-icon>
             </v-btn>
             <v-card-subtitle>
-              {{ workoutOne }}
+              {{ workoutOneTitle }}
             </v-card-subtitle>
           </v-col>
           <v-col cols="6" class="d-flex flex-column align-center justify-center">
@@ -42,34 +42,38 @@
               <v-icon v-else x-large>mdi-weather-sunset</v-icon>
             </v-btn>
             <v-card-subtitle>
-              {{ workoutTwo }}
+              {{ workoutTwoTitle }}
             </v-card-subtitle>
           </v-col>
         </v-row>
       </v-card>
     </v-carousel-item>
-  </v-carousel>
-  <v-carousel-item>
-    <v-card>
-      <v-card-title>
-        Workout Timer
-      </v-card-title>
-      <v-card-subtitle>
-        {{ activeWorkout === 1 ? workoutOne : workoutTwo }}
-      </v-card-subtitle>
-      <v-container>
-        <v-row>
+    <v-carousel-item>
+      <v-card>
+        <v-card-title>
+          Workout Timer
+        </v-card-title>
+        <v-card-subtitle>
+          {{ activeWorkout === 1 ? workoutOneTitle : workoutTwoTitle }}
+        </v-card-subtitle>
+        <Timer
+          :active-workout="activeWorkout"
+          :timer-time="2700000"
+          @cancelWorkout="carouselPage = 0"
+          @completeWorkout="handleCompleteWorkout"
+        />
+      </v-card>
+    </v-carousel-item>
 
-        </v-row>
-        <v-row></v-row>
-      </v-container>
-    </v-card>
-  </v-carousel-item>
+  </v-carousel>
 </template>
 
 <script>
+import Timer from "~/components/Dashboard/Timer";
+
 export default {
   name: "WorkoutCounter",
+  components: {Timer},
   props: {
     user: {
       type: Object,
@@ -78,8 +82,8 @@ export default {
   },
   data() {
     return {
-      workoutOne: "First",
-      workoutTwo: "Second",
+      workoutOneTitle: "First",
+      workoutTwoTitle: "Second",
       loading: false,
       carouselPage: 0,
       activeWorkout: null
@@ -87,23 +91,37 @@ export default {
   },
   methods: {
     async firstWorkout() {
-      this.loading = true
-      this.activeWorkout = 1
-      this.carouselPage = 1
-      // await this.$store.commit('user/switchUserWorkoutOne')
-      // let db = this.$fireStoreObj();
-      // await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
-      //   workoutOne: this.user.workoutOne
-      // })
-      this.loading = false
+      if (!this.user.workoutOne) {
+        this.loading = true
+        this.activeWorkout = 1
+        this.carouselPage = 1
+        this.loading = false
+      }
     },
     async secondWorkout() {
+      if (!this.user.workoutTwo) {
+        this.loading = true
+        this.activeWorkout = 2
+        this.carouselPage = 1
+        this.loading = false
+      }
+    },
+    async handleCompleteWorkout(workoutNumber) {
+      this.carouselPage = 0
       this.loading = true
-      await this.$store.commit('user/switchUserWorkoutTwo')
-      let db = this.$fireStoreObj();
-      await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
-        workoutTwo: this.user.workoutTwo
-      })
+      if (workoutNumber === 1) {
+        await this.$store.commit('user/switchUserWorkoutOne')
+        let db = this.$fireStoreObj();
+        await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
+          workoutOne: this.user.workoutOne
+        })
+      } else if (workoutNumber === 2) {
+        await this.$store.commit('user/switchUserWorkoutTwo')
+        let db = this.$fireStoreObj();
+        await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
+          workoutTwo: this.user.workoutTwo
+        })
+      }
       this.loading = false
     }
   },

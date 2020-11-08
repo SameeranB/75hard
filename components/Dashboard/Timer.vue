@@ -44,10 +44,11 @@
             <v-col>
               <v-btn
                 @click="promptStop"
-                :disabled="vac.state !== 'process'"
               >
-                <v-icon>
-                  mdi-stop
+                <v-icon
+                  color="error"
+                >
+                  {{vac.state === 'beforeStart' ? 'mdi-close' : 'mdi-stop'}}
                 </v-icon>
               </v-btn>
             </v-col>

@@ -51,11 +51,11 @@
         </v-carousel-item>
         <v-carousel-item>
           <v-card style="height: 90vh" class="d-flex flex-column mb-5">
-            <v-card-title class="text-h2 align-self-center text-center">Set Water Goal</v-card-title>
+            <v-card-title class="text-h2 align-self-center text-center no-wrap">Set Water Goal</v-card-title>
             <v-divider></v-divider>
             <v-spacer></v-spacer>
             <v-card-text class="text-h6 text-center">The recommended and default water goal is 4 litres. You may change
-              it here if you have medical resons.
+              it here if you have medical reasons.
             </v-card-text>
             <v-card-text class="text-h6 font-style-bold text-center">We do not recommend doing this unless absolutely
               necessary.

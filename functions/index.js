@@ -3,7 +3,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 admin.initializeApp();
 
-exports.evaluateUsersProgress = functions.pubsub.schedule('59 23 * * *').timeZone('Asia/Kolkata').onRun((context) => {
+exports.evaluateUsersProgress = functions.pubsub.schedule('00 02 * * *').timeZone('Asia/Kolkata').onRun((context) => {
   return admin.firestore().collection(`Users`).listDocuments().then(async userList => {
     return userList
   }).then(async userList => {

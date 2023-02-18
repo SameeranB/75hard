@@ -8,7 +8,7 @@
         <div>
           <v-card-title><span style="word-break: normal">{{ $fireAuth.currentUser.displayName }}</span>
           </v-card-title>
-          <v-card-subtitle>Day #{{ user.day }}</v-card-subtitle>
+          <v-card-subtitle>Day #{{ user.day }} / {{ user.challengeDay }}</v-card-subtitle>
         </div>
         <v-spacer></v-spacer>
         <v-card-actions class="mx-0">

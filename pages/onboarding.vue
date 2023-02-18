@@ -92,7 +92,7 @@
             </v-btn>
         </v-col>
         <v-snackbar v-model="snackbar" multi-line>
-            "You must enter a book title and total pages."
+            Please enter a value to continue
             <template v-slot:action="{ attrs }">
                 <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
                     Close
@@ -118,7 +118,7 @@ export default {
     methods: {
         async setValue() {
             if (this.carousel === 0) {
-                if (this.challengeDays !== null) {
+                if (this.challengeDays !== null && this.challengeDays !== "") {
                     let db = this.$fireStoreObj();
                     await db.collection('Users').doc(this.$fireAuth.currentUser.uid).update({
                         challengeDays: this.challengeDays
